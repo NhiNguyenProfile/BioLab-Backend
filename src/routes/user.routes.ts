@@ -1,13 +1,9 @@
 import { Router } from 'express'
+import { loginController } from '~/controller/user.controler'
+import { loginValidator } from '~/middlewares/user.middleware'
 
 const userRouter = Router()
 
-// middleware that is specific to this router
-const timeLog = (req, res, next) => {
-  console.log('Time: ', Date.now())
-  next()
-}
-
-userRouter.use(timeLog)
+userRouter.post('/login', loginValidator, loginController)
 
 export default userRouter
