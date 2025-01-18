@@ -2,19 +2,19 @@ import { ObjectId } from 'mongodb'
 import { UserType, UserVerifyStatus } from '~/types/user.type'
 
 export default class User {
-  private _id: ObjectId
-  private name: string
+  private id?: ObjectId
+  private fullname?: string
   private email: string
   private password: string
-  private created_at: Date
-  private updated_at: Date
-  private email_verify_token: string
-  private forgot_password_token: string
-  private verify: UserVerifyStatus
+  private created_at?: Date
+  private updated_at?: Date
+  private email_verify_token?: string
+  private forgot_password_token?: string
+  private verify?: UserVerifyStatus
 
   constructor(user: UserType) {
-    this._id = user._id
-    this.name = user.name
+    this.id = user.id
+    this.fullname = user.fullname
     this.email = user.email
     this.password = user.password
     this.created_at = user.created_at
@@ -24,12 +24,12 @@ export default class User {
     this.verify = user.verify
   }
 
-  public getId(): ObjectId {
-    return this._id
+  public getId(): ObjectId | undefined {
+    return this.id
   }
 
-  public getName(): string {
-    return this.name
+  public getFullname(): string | undefined {
+    return this.fullname
   }
 
   public getEmail(): string {
@@ -40,29 +40,28 @@ export default class User {
     return this.password
   }
 
-  public getCreatedAt(): Date {
+  public getCreatedAt(): Date | undefined {
     return this.created_at
   }
 
-  public getUpdatedAt(): Date {
+  public getUpdatedAt(): Date | undefined {
     return this.updated_at
   }
 
-  public getEmailVerifyToken(): string {
+  public getEmailVerifyToken(): string | undefined {
     return this.email_verify_token
   }
 
-  public getForgotPasswordToken(): string {
+  public getForgotPasswordToken(): string | undefined {
     return this.forgot_password_token
   }
 
-  public getVerifyStatus(): UserVerifyStatus {
+  public getVerifyStatus(): UserVerifyStatus | undefined {
     return this.verify
   }
 
-  // Setter để cập nhật các thuộc tính
-  public setName(name: string): void {
-    this.name = name
+  public setFullname(fullname: string): void {
+    this.fullname = fullname
   }
 
   public setEmail(email: string): void {
@@ -79,18 +78,5 @@ export default class User {
 
   public setVerifyStatus(status: UserVerifyStatus): void {
     this.verify = status
-  }
-
-  public getUser(): Omit<UserType, 'password'> {
-    return {
-      _id: this._id,
-      name: this.name,
-      email: this.email,
-      created_at: this.created_at,
-      updated_at: this.updated_at,
-      email_verify_token: this.email_verify_token,
-      forgot_password_token: this.forgot_password_token,
-      verify: this.verify
-    }
   }
 }

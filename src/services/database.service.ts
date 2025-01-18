@@ -1,6 +1,5 @@
-import { Collection, Db, MongoClient, ServerApiVersion } from 'mongodb'
+import { Db, MongoClient, ServerApiVersion } from 'mongodb'
 import { config } from 'dotenv'
-import User from '~/models/schemas/user.schemas'
 
 config()
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.v5ouu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
@@ -30,8 +29,8 @@ class DatabaseService {
     }
   }
 
-  get user(): Collection<User> {
-    return this.db.collection(process.env.DB_USER_COLLECTION as string)
+  public getDb() {
+    return this.db
   }
 }
 

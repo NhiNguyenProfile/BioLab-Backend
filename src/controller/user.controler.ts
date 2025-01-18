@@ -1,14 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
+import User from '~/models/schemas/user.schemas'
+import userService from '~/services/user.service'
 
 const loginController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email, password } = req.body
-    if (email === 'duthanhduoc@gmail.com' && password === '123456') {
-      res.status(200).json({
-        message: 'Login success'
-      })
-      return
-    }
     res.status(400).json({
       error: 'Login failed'
     })
@@ -18,12 +14,16 @@ const loginController = async (req: Request, res: Response, next: NextFunction):
 }
 
 const registerController = (req: Request, res: Response) => {
-  const { email, password } = req.body
-  if (email == 'duthanhduoc@gmail.com' && password == '123456') {
-    return res.status(200).json({
-      message: 'Login success'
+  const { fullname, email, password } = req.body
+
+  userService.createUser(
+    new User({
+      fullname: fullname,
+      email: email,
+      password: password
     })
-  }
+  )
+
   return res.status(400).json({
     error: 'Login failed'
   })
