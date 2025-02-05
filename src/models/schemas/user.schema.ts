@@ -1,16 +1,17 @@
 import { ObjectId } from 'mongodb'
-import { UserType, UserVerifyStatus } from '~/types/user.type'
+import { UserRole, UserType, UserVerifyStatus } from '~/types/user.type'
 
 export default class User {
-  private id?: ObjectId
-  private fullname?: string
+  private id: ObjectId
+  private fullname: string
   private email: string
   private password: string
   private created_at?: Date
   private updated_at?: Date
   private email_verify_token?: string
   private forgot_password_token?: string
-  private verify?: UserVerifyStatus
+  private verify: UserVerifyStatus
+  private role: UserRole
 
   constructor(user: UserType) {
     this.id = user.id
@@ -22,6 +23,7 @@ export default class User {
     this.email_verify_token = user.email_verify_token
     this.forgot_password_token = user.forgot_password_token
     this.verify = user.verify
+    this.role = user.role
   }
 
   public getId(): ObjectId | undefined {
@@ -60,6 +62,10 @@ export default class User {
     return this.verify
   }
 
+  public getRole(): UserRole | undefined {
+    return this.role
+  }
+
   public setFullname(fullname: string): void {
     this.fullname = fullname
   }
@@ -78,5 +84,9 @@ export default class User {
 
   public setVerifyStatus(status: UserVerifyStatus): void {
     this.verify = status
+  }
+
+  public setRole(role: UserRole): void {
+    this.role = role
   }
 }
