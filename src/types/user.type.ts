@@ -6,16 +6,29 @@ enum UserVerifyStatus {
   Banned
 }
 
+enum UserRole {
+  Customer,
+  Admin
+}
+
 interface UserType {
-  _id: ObjectId
-  name: string
+  id: ObjectId
+  fullname: string
   email: string
   password: string
   created_at: Date
-  updated_at: Date
-  email_verify_token: string
-  forgot_password_token: string
+  updated_at?: Date
+  email_verify_token?: string
+  forgot_password_token?: string
   verify: UserVerifyStatus
+  role: UserRole
 }
 
-export { UserVerifyStatus, UserType }
+enum TokenType {
+  AccessToken,
+  RefreshToken,
+  ForgotPasswordToken,
+  EmailVerifyToken
+}
+
+export { UserVerifyStatus, UserType, UserRole, TokenType }

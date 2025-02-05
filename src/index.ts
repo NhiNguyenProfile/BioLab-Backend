@@ -6,7 +6,7 @@ const app = express()
 const port = 3000
 
 app.use(express.json())
-app.use('/user', userRouter)
+app.use('/users', userRouter)
 databaseService.connect()
 // ~ run().catch(err => console.dir(err))
 app.listen(port, () => {
