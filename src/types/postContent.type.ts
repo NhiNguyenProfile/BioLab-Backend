@@ -6,11 +6,8 @@ enum ContentType {
 }
 
 interface PostContentType {
-  content_id?: ObjectId
-  post_id: ObjectId
   content: string
   type: ContentType
-  order: number
 }
 
 export { PostContentType, ContentType }

@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken'
 export function signToken({
   payload,
   privateKey = process.env.JWT_SECRET as string,
-  options
+  options = { algorithm: 'HS256' }
 }: {
   payload: string | Buffer | object
   privateKey?: string

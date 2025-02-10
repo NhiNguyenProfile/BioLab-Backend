@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 
 interface PostCategoryType {
-  post_category_id: ObjectId
+  _id: ObjectId
   post_category_name: string
 }
 
