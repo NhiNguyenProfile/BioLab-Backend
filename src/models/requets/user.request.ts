@@ -4,3 +4,7 @@ export interface RegisterReqBody {
   password: string
   confirm_password: string
 }
+
+export interface UpdateUserReqBody {
+  fullname: string
+}

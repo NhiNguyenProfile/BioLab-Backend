@@ -12,7 +12,7 @@ enum UserRole {
 }
 
 interface UserType {
-  id: ObjectId
+  _id: ObjectId
   fullname: string
   email: string
   password: string

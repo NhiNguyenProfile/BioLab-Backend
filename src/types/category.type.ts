@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 
 interface CategoryType {
-  category_id: ObjectId
+  _id: ObjectId
   category_name: string
 }
 
