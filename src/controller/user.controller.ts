@@ -4,14 +4,27 @@ import { HttpMessage, HttpStatus } from '~/constants/status'
 import { RegisterReqBody, UpdateUserReqBody } from '~/models/requets/user.request'
 import userService from '~/services/user.service'
 import { UserType } from '~/types/user.type'
+import { decodeToken } from '~/utils/jwt'
 
 const loginController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const user = req.user as UserType
   const userId = user._id as ObjectId
-  const result = userService.login(userId.toString())
+  const result = await userService.login(userId.toString())
   res.status(HttpStatus.OK).json({
     status: HttpStatus.OK,
     error: 'Login successfully!',
+    data: result,
+    msg: HttpMessage[HttpStatus.OK]
+  })
+  return
+}
+
+const logoutController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const refreshToken = req.body.refresh_token
+  const result = await decodeToken(refreshToken).then((decoded) => userService.logout(decoded?.user_id))
+  res.status(HttpStatus.OK).json({
+    status: HttpStatus.OK,
+    error: 'Logout successfully!',
     data: result,
     msg: HttpMessage[HttpStatus.OK]
   })
@@ -76,4 +89,4 @@ class UserController {
 
 const userController = new UserController()
 
-export { loginController, registerController, userController }
+export { loginController, registerController, userController, logoutController }

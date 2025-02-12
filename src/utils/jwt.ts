@@ -27,3 +27,20 @@ export function signToken({
     })
   })
 }
+
+/**
+ * Decode a JWT token without verifying its signature
+ * @param token - The JWT token to decode
+ * @returns The decoded payload or null if decoding fails
+ */
+export function decodeToken(token: string): Promise<jwt.JwtPayload | null> {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_SECRET as string, (error, decoded) => {
+      if (error || !decoded) {
+        reject(new Error('Unauthorized'))
+        return
+      }
+      resolve(decoded as jwt.JwtPayload)
+    })
+  })
+}
