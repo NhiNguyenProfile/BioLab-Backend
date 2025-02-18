@@ -19,7 +19,6 @@ class DatabaseService {
   private client: MongoClient
   private db: Db
   constructor() {
-    // Create a MongoClient with a MongoClientOptions object to set the Stable API version
     this.client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
@@ -31,7 +30,6 @@ class DatabaseService {
   }
   async connect() {
     try {
-      // Send a ping to confirm a successful connection
       await this.db.command({ ping: 1 })
       console.log('Pinged your deployment. You successfully connected to MongoDB!')
     } catch (error) {

@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { PostCategoryType } from '~/types/postCategory.type'
 
-export default class Post {
+export default class PostCategory {
   _id: ObjectId
   post_category_name: string
 
