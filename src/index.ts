@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express'
 import userRouter from '~/routes/user.routes'
+import postRouter from '~/routes/post.routes'
 import databaseService from '~/services/database.service'
 import { defaultErrorHandler } from './middlewares/error.middleware'
 import productRouter from './routes/product.routes'
@@ -32,6 +33,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJSDoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
+app.use('/posts', postRouter)
 app.use(defaultErrorHandler)
 databaseService.connect()
 
