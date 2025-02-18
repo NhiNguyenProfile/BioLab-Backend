@@ -7,12 +7,16 @@ import productRouter from './routes/product.routes'
 import categoryRouter from './routes/category.routes'
 import brandRouter from './routes/brand.routes'
 import swaggerJSDoc from 'swagger-jsdoc'
+import cors from "cors";
+
+
 const swaggerUi = require('swagger-ui-express')
 
 const app = express()
 const port = 3000
 
 app.use(express.json())
+app.use(cors());
 app.use('/brands', brandRouter)
 app.use('/users', userRouter)
 app.use('/categories', categoryRouter)
