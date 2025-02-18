@@ -26,7 +26,6 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
       return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Token expired' })
     }
 
-    // Gán userId vào request
     ;(req as ProtectedRequest).userId = decoded.userId
 
     next()

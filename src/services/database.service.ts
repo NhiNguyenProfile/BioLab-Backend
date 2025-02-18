@@ -2,6 +2,13 @@ import { Collection, Db, MongoClient, ServerApiVersion } from 'mongodb'
 import { config } from 'dotenv'
 import User from '~/models/schemas/user.schema'
 import RefreshToken from '~/models/schemas/refreshToken.schema'
+import Product from '~/models/schemas/product.schema'
+import ProductDetail from '~/models/schemas/productDetail.schema'
+import Category from '~/models/schemas/category.schema'
+import Order from '~/models/schemas/order.schema'
+import OrderDetail from '~/models/schemas/orderDetail.schema'
+import ProductRate from '~/models/schemas/productRate.schema'
+import Brand from '~/models/schemas/brand.schema'
 
 // Using env
 config()
@@ -39,6 +46,34 @@ class DatabaseService {
 
   get refreshTokens(): Collection<RefreshToken> {
     return databaseService.db.collection(process.env.DB_REFRESH_TOKEN_COLLECTION as string)
+  }
+
+  get products(): Collection<Product> {
+    return databaseService.db.collection(process.env.DB_PRODUCT_COLLECTION as string)
+  }
+
+  get productDetails(): Collection<ProductDetail> {
+    return databaseService.db.collection(process.env.DB_PRODUCT_DETAIL_COLLECTION as string)
+  }
+
+  get productRates(): Collection<ProductRate> {
+    return databaseService.db.collection(process.env.DB_PRODUCT_RATE_COLLECTION as string)
+  }
+
+  get categories(): Collection<Category> {
+    return databaseService.db.collection(process.env.DB_CATEGORY_COLLECTION as string)
+  }
+
+  get orders(): Collection<Order> {
+    return databaseService.db.collection(process.env.DB_ORDER_COLLECTION as string)
+  }
+
+  get orderDetails(): Collection<OrderDetail> {
+    return databaseService.db.collection(process.env.DB_ORDER_DETAIL_COLLECTION as string)
+  }
+
+  get brands(): Collection<Brand> {
+    return databaseService.db.collection(process.env.DB_BRAND_COLLECTION as string)
   }
 }
 

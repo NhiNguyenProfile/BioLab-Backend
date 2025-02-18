@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken'
+import ErrorMessages from '~/constants/errorMessage'
+import { HttpStatus } from '~/constants/status'
+import { ErrorWithStatus } from '~/models/errors'
 
 /**
  * Sign a JWT token
@@ -37,7 +40,12 @@ export function decodeToken(token: string): Promise<jwt.JwtPayload | null> {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET as string, (error, decoded) => {
       if (error || !decoded) {
-        reject(new Error('Unauthorized'))
+        reject(
+          new ErrorWithStatus({
+            status: HttpStatus.UNAUTHORIZED,
+            message: ErrorMessages.auth.unauthorized
+          })
+        )
         return
       }
       resolve(decoded as jwt.JwtPayload)
