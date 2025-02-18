@@ -1,21 +1,17 @@
 import express from 'express'
 import postController from '~/controller/post.controller'
+import { validatePost, validateUpdatePost } from '~/middlewares/post.middleware'
 
 const postRouter = express.Router()
 
-// Tạo bài viết mới
-postRouter.post('/', postController.createPost)
+postRouter.post('/', validatePost, postController.createPost.bind(postController))
 
-// Lấy thông tin bài viết theo ID
-postRouter.get('/:id', postController.getPostById)
+postRouter.get('/:id', postController.getPostById.bind(postController))
 
-// Cập nhật bài viết
-postRouter.put('/:id', postController.updatePost)
+postRouter.put('/:id', validateUpdatePost, postController.updatePost.bind(postController))
 
-// Xóa bài viết
-postRouter.delete('/:id', postController.deletePost)
+postRouter.delete('/:id', postController.deletePost.bind(postController))
 
-// Lấy tất cả bài viết
-postRouter.get('/', postController.getAllPosts)
+postRouter.get('/', postController.getAllPosts.bind(postController))
 
 export default postRouter
