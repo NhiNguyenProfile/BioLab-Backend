@@ -1,6 +1,16 @@
 import { Router } from 'express'
-import { loginController, logoutController, registerController, userController } from '~/controller/user.controller'
-import { loginValidator, logoutValidator, registerValidator } from '~/middlewares/user.middleware'
+import {
+  loginController,
+  logoutController,
+  refreshTokenController,
+  registerController
+} from '~/controller/user.controller'
+import {
+  accessTokenValidator,
+  loginValidator,
+  refreshTokenValidator,
+  registerValidator
+} from '~/middlewares/user.middleware'
 import { wrapAsync } from '~/utils/handler'
 
 const userRouter = Router()
@@ -28,14 +38,14 @@ userRouter.post('/register', registerValidator, wrapAsync(registerController))
  * Headers: { access_token: string }
  * Body: { refresh_token: string }
  */
-userRouter.post('/logout', logoutValidator, wrapAsync(logoutController))
+userRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapAsync(logoutController))
 
-// userRouter.get('/users/:id', userController.getUserById)
-
-// userRouter.get('/users', userController.getAllUsers)
-
-// userRouter.put('/users/:id', userController.updateUser)
-
-// userRouter.delete('/users/:id', userController.deleteUser)
+/**
+ * Description. Refresh Token
+ * Path: /refresh-token
+ * Method: POST
+ * Body: { refresh_token: string }
+ */
+userRouter.post('/refresh-token', refreshTokenValidator, wrapAsync(refreshTokenController))
 
 export default userRouter

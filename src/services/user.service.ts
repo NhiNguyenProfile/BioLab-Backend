@@ -8,31 +8,43 @@ import { signToken } from '~/utils/jwt'
 import RefreshToken from '~/models/schemas/refreshToken.schema'
 
 class UserService {
-  private readonly ACCESS_TOKEN_EXP = '15m'
+  private readonly ACCESS_TOKEN_EXP = '1d'
   private readonly REFRESH_TOKEN_EXP = '100d'
 
   constructor() {}
 
-  private async signAccessToken(user_id: string) {
+  private async signAccessToken(user_id: string, role: string) {
     return signToken({
-      payload: { user_id, token_type: TokenType.AccessToken },
+      payload: { user_id, role, token_type: TokenType.AccessToken },
       options: {
         expiresIn: this.ACCESS_TOKEN_EXP
       }
     })
   }
 
-  private async signRefreshToken(user_id: string) {
+  private async signRefreshToken(user_id: string, role: string) {
     return signToken({
-      payload: { user_id, token_type: TokenType.RefreshToken },
+      payload: { user_id, role, token_type: TokenType.RefreshToken },
       options: {
         expiresIn: this.REFRESH_TOKEN_EXP
       }
     })
   }
 
-  private async signAccessAndRefreshToken(userId: string) {
-    return await Promise.all([this.signAccessToken(userId), this.signRefreshToken(userId)])
+  private async signAccessAndRefreshToken(userId: string, role: string) {
+    return await Promise.all([this.signAccessToken(userId, role), this.signRefreshToken(userId, role)])
+  }
+
+  async refreshToken(userId: string, role: string) {
+    const [accessToken, refreshToken] = await this.signAccessAndRefreshToken(userId, role)
+    const result = await databaseService.refreshTokens.updateOne(
+      { user_id: new ObjectId(userId) },
+      { token: refreshToken }
+    )
+    return {
+      access_token: accessToken,
+      refresh_token: refreshToken
+    }
   }
 
   async createUser(payload: RegisterReqBody) {
@@ -54,7 +66,10 @@ class UserService {
     const result = await databaseService.users.insertOne(initUser)
     const userId = result.insertedId
 
-    const [accessToken, refreshToken] = await this.signAccessAndRefreshToken(userId.toString())
+    const [accessToken, refreshToken] = await this.signAccessAndRefreshToken(
+      userId.toString(),
+      initUser.role.toString()
+    )
     databaseService.refreshTokens.insertOne(new RefreshToken({ user_id: userId, token: refreshToken }))
 
     return {
@@ -63,8 +78,8 @@ class UserService {
     }
   }
 
-  async login(userId: string) {
-    const [accessToken, refreshToken] = await this.signAccessAndRefreshToken(userId)
+  async login(userId: string, role: string) {
+    const [accessToken, refreshToken] = await this.signAccessAndRefreshToken(userId, role)
     databaseService.refreshTokens.insertOne(new RefreshToken({ user_id: new ObjectId(userId), token: refreshToken }))
     return {
       access_token: accessToken,
