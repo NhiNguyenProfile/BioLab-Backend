@@ -3,6 +3,9 @@ import { checkSchema, query } from 'express-validator'
 import { ErrorWithStatus } from '~/models/errors'
 import databaseService from '~/services/database.service'
 import userService from '~/services/user.service'
+import { hashPassword } from '~/utils/crypto'
+import { getToken } from '~/utils/detectToken'
+import { decodeToken } from '~/utils/jwt'
 import { validate } from '~/validators/manuallyValiadate'
 
 // middleware that is specific to this router
@@ -13,11 +16,29 @@ const loginValidator = validate(
       isEmail: true,
       custom: {
         options: async (value, { req }) => {
-          const user = await userService.users.findOne({ email: value })
+          const user = await databaseService.users.findOne({ email: value, password: hashPassword(req.body.password) })
           if (user == null) {
             throw new Error('Email or Password are incorrect!')
           }
           req.user = user
+          return true
+        }
+      }
+    }
+  })
+)
+
+const logoutValidator = validate(
+  checkSchema({
+    refresh_token: {
+      trim: true,
+      custom: {
+        options: async (value, { req }) => {
+          const accessToken = getToken(req.headers?.authorization)
+          const isExistRefreshToken = await databaseService.refreshTokens.findOne({ token: value })
+          if (!accessToken || !isExistRefreshToken) {
+            throw new Error('Unauthorized')
+          }
           return true
         }
       }
@@ -56,4 +77,4 @@ const registerValidator = validate(
   })
 )
 
-export { loginValidator, registerValidator }
+export { loginValidator, registerValidator, logoutValidator }
