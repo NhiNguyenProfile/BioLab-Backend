@@ -3,16 +3,17 @@ import { ObjectId } from 'mongodb'
 import { HttpMessage, HttpStatus } from '~/constants/status'
 import { RegisterReqBody, UpdateUserReqBody } from '~/models/requets/user.request'
 import userService from '~/services/user.service'
+import { DecodedToken } from '~/types/type'
 import { UserType } from '~/types/user.type'
 import { decodeToken } from '~/utils/jwt'
 
 const loginController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const user = req.user as UserType
   const userId = user._id as ObjectId
-  const result = await userService.login(userId.toString())
+  const role = user.role
+  const result = await userService.login(userId.toString(), role.toString())
   res.status(HttpStatus.OK).json({
     status: HttpStatus.OK,
-    error: 'Login successfully!',
     data: result,
     msg: HttpMessage[HttpStatus.OK]
   })
@@ -24,7 +25,6 @@ const logoutController = async (req: Request, res: Response, next: NextFunction)
   const result = await decodeToken(refreshToken).then((decoded) => userService.logout(decoded?.user_id))
   res.status(HttpStatus.OK).json({
     status: HttpStatus.OK,
-    error: 'Logout successfully!',
     data: result,
     msg: HttpMessage[HttpStatus.OK]
   })
@@ -40,9 +40,19 @@ const registerController = async (
 
   res.status(HttpStatus.CREATED).json({
     status: HttpStatus.CREATED,
-    error: 'Register successfully!',
     data: user,
     msg: HttpMessage[HttpStatus.CREATED]
+  })
+  return
+}
+
+const refreshTokenController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { user_id, role } = req.decoded_authorization as DecodedToken
+  const result = await userService.refreshToken(user_id.toString(), role.toString())
+  res.status(HttpStatus.OK).json({
+    status: HttpStatus.OK,
+    data: result,
+    msg: HttpMessage[HttpStatus.OK]
   })
   return
 }
@@ -62,22 +72,6 @@ class UserController {
     res.status(HttpStatus.OK).json({ status: HttpStatus.OK, data: result })
   }
 
-  async updateUser(req: Request<Record<string, string>, any, UpdateUserReqBody>, res: Response) {
-    const userId = ''
-    // if (!userId) {
-    //   res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Unauthorized' })
-    //   return
-    // }
-
-    const updatedUser = await userService.updateUser(userId, req.body)
-
-    if (!updatedUser) {
-      res.status(HttpStatus.NOT_FOUND).json({ status: HttpStatus.NOT_FOUND, message: 'User not found' })
-    }
-
-    res.status(HttpStatus.OK).json({ status: HttpStatus.OK, message: 'User updated successfully', data: updatedUser })
-  }
-
   async deleteUser(req: Request, res: Response) {
     const deleted = await userService.deleteUser(req.params.id)
     if (!deleted) {
@@ -89,4 +83,4 @@ class UserController {
 
 const userController = new UserController()
 
-export { loginController, registerController, userController, logoutController }
+export { loginController, registerController, userController, logoutController, refreshTokenController }

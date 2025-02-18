@@ -5,6 +5,7 @@ export default class User {
   _id: ObjectId
   fullname: string
   email: string
+  phone: string
   password: string
   created_at?: Date
   updated_at?: Date
@@ -17,6 +18,7 @@ export default class User {
     this._id = user._id
     this.fullname = user.fullname
     this.email = user.email
+    this.phone = user.phone
     this.password = user.password
     this.created_at = user.created_at
     this.updated_at = user.updated_at
