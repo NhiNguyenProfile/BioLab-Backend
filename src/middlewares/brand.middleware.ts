@@ -33,23 +33,6 @@ const createBrandValidator = validate(
 const updateBrandValidator = validate(
   checkSchema(
     {
-      brandId: {
-        notEmpty: {
-          errorMessage: ErrorMessages.brand.idRequired
-        },
-        custom: {
-          options: async (value) => {
-            const brand = await databaseService.brands.findOne({ _id: value })
-            if (!brand) {
-              throw new ErrorWithStatus({
-                status: HttpStatus.NOT_FOUND,
-                message: ErrorMessages.brand.notFound
-              })
-            }
-            return true
-          }
-        }
-      },
       brand_name: {
         optional: true,
         isString: {
