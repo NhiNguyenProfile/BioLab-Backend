@@ -13,6 +13,7 @@ interface ProductType {
   unit: string
   price: number
   stock: number
+  status?: ProductStatus
   details?: Detail[]
 }
 
@@ -26,4 +27,9 @@ type QAType = {
   answer: string
 }
 
-export { ProductType, QAType, Detail }
+enum ProductStatus {
+  ACTIVE,
+  INACTIVE
+}
+
+export { ProductType, QAType, Detail, ProductStatus }

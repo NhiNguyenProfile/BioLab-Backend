@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import Product from '~/models/schemas/product.schema'
-import { ProductType } from '~/types/product.type'
+import { ProductStatus, ProductType } from '~/types/product.type'
 import databaseService from './database.service'
 import { CreateProductReqBody } from '~/models/requets/product.request'
 
@@ -43,8 +43,12 @@ class ProductService {
   async deleteProduct(productId: string) {
     if (!ObjectId.isValid(productId)) throw new Error('Invalid product ID format')
 
-    const result = await databaseService.products.deleteOne({ _id: new ObjectId(productId) })
-    if (result.deletedCount === 0) throw new Error('Product not found or already deleted!')
+    const result = await databaseService.products.findOneAndUpdate(
+      { _id: new ObjectId(productId) },
+      { $set: { status: ProductStatus.INACTIVE } },
+      { returnDocument: 'after' }
+    )
+    if (!result) throw new Error('Product not found or already deleted!')
     return { message: 'Product deleted successfully' }
   }
 

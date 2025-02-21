@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { Detail, ProductType, QAType } from '~/types/product.type'
+import { Detail, ProductStatus, ProductType, QAType } from '~/types/product.type'
 import { CategoryType } from '~/types/category.type'
 import { BrandType } from '~/types/brand.type'
 
@@ -14,6 +14,7 @@ export default class Product {
   unit: string
   price: number
   stock: number
+  status?: ProductStatus
   details?: Detail[]
 
   constructor(product: ProductType) {
@@ -27,6 +28,7 @@ export default class Product {
     this.price = product.price
     this.stock = product.stock
     this.details = product.details
+    this.status = product.status || ProductStatus.ACTIVE
     this.qa = product.qa
   }
 }
