@@ -14,7 +14,7 @@ interface PostType {
   created_date: Date
   user_id: ObjectId
   status: PostStatus
-  postContents: PostContent[]
+  postContents: string
 }
 
 export { PostType, PostStatus }

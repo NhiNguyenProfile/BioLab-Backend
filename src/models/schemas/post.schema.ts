@@ -10,7 +10,7 @@ export default class Post {
   created_date: Date
   user_id: ObjectId
   status: PostStatus
-  postContents: PostContent[]
+  postContents: string
 
   constructor(post: {
     _id?: ObjectId
@@ -19,7 +19,7 @@ export default class Post {
     created_date: Date
     user_id: ObjectId
     status: PostStatus
-    postContents: PostContent[]
+    postContents: string
   }) {
     this._id = post._id || new ObjectId()
     this.title = post.title

@@ -25,13 +25,6 @@ class PostService {
       throw new Error('User not found')
     }
 
-    // // Kiểm tra danh mục có hợp lệ không
-    // const isCategoryValid = await this.checkCategoriesExist(category)
-    // if (!isCategoryValid) {
-    //   throw new Error('One or more categories do not exist')
-    // }
-
-    // Thực hiện tạo bài viết
     const result = await databaseService.posts.insertOne(
       new Post({
         title,
@@ -39,7 +32,7 @@ class PostService {
         user_id: userId,
         created_date: new Date(),
         status: status || PostStatus.DRAFT,
-        postContents: postContents.map((content) => new PostContent(content))
+        postContents
       })
     )
 
@@ -58,7 +51,7 @@ class PostService {
     if (title) updateData.$set.title = title
     if (category) updateData.$set.category = category
     if (status) updateData.$set.status = status
-    if (postContents) updateData.$set.postContents = postContents.map((content) => new PostContent(content))
+    if (postContents) updateData.$set.postContents = postContents
 
     const result = await databaseService.posts.updateOne({ _id: new ObjectId(postId) }, updateData)
 

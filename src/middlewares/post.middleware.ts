@@ -23,14 +23,14 @@ const postSchema = Joi.object({
   status: Joi.string()
     .valid(...Object.values(PostStatus))
     .default(PostStatus.DRAFT),
-  postContents: Joi.array().items(postContentSchema).min(1).required()
+  postContents: Joi.string().required()
 })
 
 const updatePostSchema = Joi.object({
   title: Joi.string(),
   category: Joi.array().items(postCategorySchema).min(1),
   status: Joi.string().valid(...Object.values(PostStatus)),
-  postContents: Joi.array().items(postContentSchema).min(1)
+  postContents: Joi.string().required()
 }).min(1)
 
 export const validatePost = (req: Request, res: Response, next: NextFunction): void => {
