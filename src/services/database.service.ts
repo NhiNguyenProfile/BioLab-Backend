@@ -9,6 +9,8 @@ import Order from '~/models/schemas/order.schema'
 import OrderDetail from '~/models/schemas/orderDetail.schema'
 import ProductRate from '~/models/schemas/productRate.schema'
 import Brand from '~/models/schemas/brand.schema'
+import PostCategory from '~/models/schemas/postCategory.schema'
+import Post from '~/models/schemas/post.schema'
 
 // Using env
 config()
@@ -72,6 +74,14 @@ class DatabaseService {
 
   get brands(): Collection<Brand> {
     return databaseService.db.collection(process.env.DB_BRAND_COLLECTION as string)
+  }
+
+  get posts(): Collection<Post> {
+    return databaseService.db.collection(process.env.DB_POST_COLLECTION as string)
+  }
+
+  get postCategories(): Collection<PostCategory> {
+    return databaseService.db.collection(process.env.DB_POST_CATEGORY_COLLECTION as string)
   }
 }
 

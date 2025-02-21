@@ -3,31 +3,16 @@ import { PostType, PostStatus } from '~/types/post.type'
 import Post from '~/models/schemas/post.schema'
 import databaseService from '~/services/database.service'
 import PostContent from '~/models/schemas/postContent.schema'
-import { Collection } from 'mongodb'
-import PostCategory from '~/models/schemas/postCategory.schema'
-import User from '~/models/schemas/user.schema'
 
 class PostService {
-  private get posts(): Collection<Post> {
-    return databaseService.getDb().collection(process.env.DB_POST_COLLECTION as string)
-  }
-
-  private get postCategories(): Collection<PostCategory> {
-    return databaseService.getDb().collection(process.env.DB_POST_CATEGORY_COLLECTION as string)
-  }
-
-  private get users(): Collection<User> {
-    return databaseService.getDb().collection(process.env.DB_USER_COLLECTION as string)
-  }
-
   private async checkCategoriesExist(categories: { _id: ObjectId }[]) {
     const categoryIds = categories.map((cat) => cat._id)
-    const existingCategories = await this.postCategories.find({ _id: { $in: categoryIds } }).toArray()
+    const existingCategories = await databaseService.postCategories.find({ _id: { $in: categoryIds } }).toArray()
     return existingCategories.length === categoryIds.length
   }
 
   private async checkUserExists(userId: ObjectId) {
-    const user = await this.users.findOne({ _id: userId })
+    const user = await databaseService.users.findOne({ _id: userId })
     return !!user
   }
 
@@ -47,7 +32,7 @@ class PostService {
     // }
 
     // Thực hiện tạo bài viết
-    const result = await this.posts.insertOne(
+    const result = await databaseService.posts.insertOne(
       new Post({
         title,
         category,
@@ -58,7 +43,7 @@ class PostService {
       })
     )
 
-    const post = await this.posts.findOne({ _id: result.insertedId })
+    const post = await databaseService.posts.findOne({ _id: result.insertedId })
     return post
   }
 
@@ -75,18 +60,18 @@ class PostService {
     if (status) updateData.$set.status = status
     if (postContents) updateData.$set.postContents = postContents.map((content) => new PostContent(content))
 
-    const result = await this.posts.updateOne({ _id: new ObjectId(postId) }, updateData)
+    const result = await databaseService.posts.updateOne({ _id: new ObjectId(postId) }, updateData)
 
     if (result.modifiedCount === 0) {
       throw new Error('Post update failed or no changes detected')
     }
 
-    const updatedPost = await this.posts.findOne({ _id: new ObjectId(postId) })
+    const updatedPost = await databaseService.posts.findOne({ _id: new ObjectId(postId) })
     return updatedPost
   }
 
   async getPostById(postId: string) {
-    const post = await this.posts.findOne({ _id: new ObjectId(postId) })
+    const post = await databaseService.posts.findOne({ _id: new ObjectId(postId) })
     if (!post) {
       throw new Error('Post not found')
     }
@@ -94,7 +79,7 @@ class PostService {
   }
 
   async deletePost(postId: string) {
-    const result = await this.posts.deleteOne({ _id: new ObjectId(postId) })
+    const result = await databaseService.posts.deleteOne({ _id: new ObjectId(postId) })
     if (result.deletedCount === 0) {
       throw new Error('Post not found or delete failed')
     }
@@ -103,9 +88,9 @@ class PostService {
 
   async getAllPosts(page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit
-    const posts = await this.posts.find({}).skip(skip).limit(limit).toArray()
+    const posts = await databaseService.posts.find({}).skip(skip).limit(limit).toArray()
 
-    const total = await this.posts.countDocuments()
+    const total = await databaseService.posts.countDocuments()
     return {
       data: posts,
       pagination: {
