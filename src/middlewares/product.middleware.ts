@@ -88,6 +88,33 @@ const createProductValidator = validate(
           }
         }
       },
+      unit: {
+        notEmpty: {
+          errorMessage: ErrorMessages.productDetail.unitRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.productDetail.unitInvalid
+        },
+        trim: true
+      },
+      price: {
+        notEmpty: {
+          errorMessage: ErrorMessages.productDetail.priceRequired
+        },
+        isFloat: {
+          options: { min: 0 },
+          errorMessage: ErrorMessages.productDetail.priceInvalid
+        }
+      },
+      stock: {
+        notEmpty: {
+          errorMessage: ErrorMessages.productDetail.stockRequired
+        },
+        isInt: {
+          options: { min: 0 },
+          errorMessage: ErrorMessages.productDetail.stockInvalid
+        }
+      },
       qa: {
         optional: true,
         isArray: {
@@ -105,6 +132,7 @@ const createProductValidator = validate(
         }
       }
     },
+
     ['body']
   )
 )
@@ -165,6 +193,33 @@ const updateProductValidator = validate(
             }
             return true
           }
+        }
+      },
+      unit: {
+        notEmpty: {
+          errorMessage: ErrorMessages.productDetail.unitRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.productDetail.unitInvalid
+        },
+        trim: true
+      },
+      price: {
+        notEmpty: {
+          errorMessage: ErrorMessages.productDetail.priceRequired
+        },
+        isFloat: {
+          options: { min: 0 },
+          errorMessage: ErrorMessages.productDetail.priceInvalid
+        }
+      },
+      stock: {
+        notEmpty: {
+          errorMessage: ErrorMessages.productDetail.stockRequired
+        },
+        isInt: {
+          options: { min: 0 },
+          errorMessage: ErrorMessages.productDetail.stockInvalid
         }
       },
       image_url: {

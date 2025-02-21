@@ -6,43 +6,145 @@ import { wrapAsync } from '~/utils/handler'
 const productRouter = Router()
 
 /**
- * Description. Create a new product
- * Path: /products
- * Method: POST
- * Body: { customer_id: string, product_items: Array<{ product_id: string, quantity: number }>, total_price: number }
+ * @swagger
+ * /products:
+ *   post:
+ *     description: Create a new product
+ *     tags: [Product]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               category:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               image_url:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               brand:
+ *                 type: string
+ *               unit:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               stock:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Successfully created product
+ *       400:
+ *         description: Bad request
  */
 productRouter.post('/', createProductValidator, wrapAsync(productController.createProduct))
 
 /**
- * Description. Get product by ID
- * Path: /products/:id
- * Method: GET
- * Params: { id: string }
+ * @swagger
+ * /products/{id}:
+ *   get:
+ *     description: Get product by ID
+ *     tags: [Product]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the product to get
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved product
+ *       404:
+ *         description: Product not found
  */
 productRouter.get('/:id', wrapAsync(productController.getProductById))
 
 /**
- * Description. Get all products (with pagination)
- * Path: /products
- * Method: GET
- * Query: { page?: number, limit?: number }
+ * @swagger
+ * /products:
+ *   get:
+ *     description: Get all products
+ *     tags: [Product]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved all products
  */
 productRouter.get('/', wrapAsync(productController.getAllProducts))
 
 /**
- * Description. Update product by ID
- * Path: /products/:id
- * Method: PUT
- * Params: { id: string }
- * Body: { product_items?: Array<{ product_id: string, quantity: number }>, total_price?: number }
+ * @swagger
+ * /products/{id}:
+ *   put:
+ *     description: Update product by ID
+ *     tags: [Product]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the product to update
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               category:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               image_url:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               brand:
+ *                 type: string
+ *               unit:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               stock:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Successfully updated product
+ *       400:
+ *         description: Bad request
  */
 productRouter.put('/:id', updateProductValidator, wrapAsync(productController.updateProduct))
 
 /**
- * Description. Delete product by ID
- * Path: /products/:id
- * Method: DELETE
- * Params: { id: string }
+ * @swagger
+ * /products/{id}:
+ *   delete:
+ *     description: Delete product by ID
+ *     tags: [Product]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the product to delete
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully deleted product
+ *       404:
+ *         description: Product not found
  */
 productRouter.delete('/:id', wrapAsync(productController.deleteProduct))
 

@@ -1,6 +1,6 @@
 import { BrandType } from '~/types/brand.type'
 import { CategoryType } from '~/types/category.type'
-import { QAType } from '~/types/product.type'
+import { Detail, QAType } from '~/types/product.type'
 
 export interface CreateProductReqBody {
   name: string
@@ -9,6 +9,10 @@ export interface CreateProductReqBody {
   image_url: string[]
   brand: BrandType
   qa: QAType[]
+  unit: string
+  price: number
+  stock: number
+  details?: Detail[]
 }
 
 export interface UpdateProductReqBody {

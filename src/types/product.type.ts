@@ -10,6 +10,15 @@ interface ProductType {
   image_url?: string[]
   brand: BrandType
   qa?: QAType[]
+  unit: string
+  price: number
+  stock: number
+  details?: Detail[]
+}
+
+type Detail = {
+  title: string
+  content: string
 }
 
 type QAType = {
@@ -17,4 +26,4 @@ type QAType = {
   answer: string
 }
 
-export { ProductType, QAType }
+export { ProductType, QAType, Detail }
