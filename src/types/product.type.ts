@@ -6,7 +6,7 @@ interface ProductType {
   _id?: ObjectId
   name: string
   description?: string
-  category?: CategoryType[]
+  category?: CategoryType
   image_url?: string[]
   brand: BrandType
   qa?: QAType[]

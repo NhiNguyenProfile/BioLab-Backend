@@ -7,6 +7,7 @@ import { validate } from '~/validators/manuallyValiadate'
 import { CategoryType } from '~/types/category.type'
 import { QAType } from '~/types/product.type'
 import { ObjectId } from 'mongodb'
+import { BrandType } from '~/types/brand.type'
 
 const createProductValidator = validate(
   checkSchema(
@@ -37,9 +38,9 @@ const createProductValidator = validate(
           errorMessage: ErrorMessages.product.brandInvalid
         },
         custom: {
-          options: async (brandId: string) => {
-            const brand = await databaseService.brands.findOne({ _id: new ObjectId(brandId) })
-            if (!brand) {
+          options: async (brand: BrandType) => {
+            const _brand = await databaseService.brands.findOne({ _id: new ObjectId(brand._id) })
+            if (!_brand) {
               throw new ErrorWithStatus({
                 status: HttpStatus.NOT_FOUND,
                 message: ErrorMessages.product.brandNotFound
@@ -57,12 +58,9 @@ const createProductValidator = validate(
           errorMessage: ErrorMessages.product.categoryInvalid
         },
         custom: {
-          options: async (categories: CategoryType[]) => {
-            const categoryIds = categories.map((cat) => new ObjectId(cat._id))
-
-            const existingCategories = await databaseService.categories.find({ _id: { $in: categoryIds } }).toArray()
-
-            if (existingCategories.length !== categories.length) {
+          options: async (cat: CategoryType) => {
+            const _cat = await databaseService.categories.findOne({ _id: new ObjectId(cat._id) })
+            if (!_cat) {
               throw new ErrorWithStatus({
                 status: HttpStatus.NOT_FOUND,
                 message: ErrorMessages.product.categoryNotFound
@@ -162,9 +160,9 @@ const updateProductValidator = validate(
           errorMessage: ErrorMessages.product.brandInvalid
         },
         custom: {
-          options: async (brandId: string) => {
-            const brand = await databaseService.brands.findOne({ _id: new ObjectId(brandId) })
-            if (!brand) {
+          options: async (brand: BrandType) => {
+            const _brand = await databaseService.brands.findOne({ _id: new ObjectId(brand._id) })
+            if (!_brand) {
               throw new ErrorWithStatus({
                 status: HttpStatus.NOT_FOUND,
                 message: ErrorMessages.product.brandNotFound
@@ -180,12 +178,9 @@ const updateProductValidator = validate(
           errorMessage: ErrorMessages.product.categoryInvalid
         },
         custom: {
-          options: async (categories: CategoryType[]) => {
-            const categoryIds = categories.map((cat) => new ObjectId(cat._id))
-
-            const existingCategories = await databaseService.categories.find({ _id: { $in: categoryIds } }).toArray()
-
-            if (existingCategories.length !== categories.length) {
+          options: async (cat: CategoryType) => {
+            const _cat = await databaseService.categories.findOne({ _id: new ObjectId(cat._id) })
+            if (!_cat) {
               throw new ErrorWithStatus({
                 status: HttpStatus.NOT_FOUND,
                 message: ErrorMessages.product.categoryNotFound

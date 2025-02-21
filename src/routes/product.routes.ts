@@ -23,15 +23,25 @@ const productRouter = Router()
  *               description:
  *                 type: string
  *               category:
- *                 type: array
- *                 items:
- *                   type: string
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   category_name:
+ *                     type: string
  *               image_url:
  *                 type: array
  *                 items:
  *                   type: string
  *               brand:
- *                 type: string
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   brand_name:
+ *                     type: string
+ *                   image_url:
+ *                     type: string
  *               unit:
  *                 type: string
  *               price:
@@ -113,15 +123,25 @@ productRouter.get('/', wrapAsync(productController.getAllProducts))
  *               description:
  *                 type: string
  *               category:
- *                 type: array
- *                 items:
- *                   type: string
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   category_name:
+ *                     type: string
  *               image_url:
  *                 type: array
  *                 items:
  *                   type: string
  *               brand:
- *                 type: string
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   brand_name:
+ *                     type: string
+ *                   image_url:
+ *                     type: string
  *               unit:
  *                 type: string
  *               price:
