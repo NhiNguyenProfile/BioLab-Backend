@@ -34,12 +34,10 @@ const createProductValidator = validate(
         notEmpty: {
           errorMessage: ErrorMessages.product.brandRequired
         },
-        isMongoId: {
-          errorMessage: ErrorMessages.product.brandInvalid
-        },
         custom: {
           options: async (brand: BrandType) => {
             const _brand = await databaseService.brands.findOne({ _id: new ObjectId(brand._id) })
+            console.log(_brand)
             if (!_brand) {
               throw new ErrorWithStatus({
                 status: HttpStatus.NOT_FOUND,
@@ -53,9 +51,6 @@ const createProductValidator = validate(
       category: {
         notEmpty: {
           errorMessage: ErrorMessages.product.categoryRequired
-        },
-        isArray: {
-          errorMessage: ErrorMessages.product.categoryInvalid
         },
         custom: {
           options: async (cat: CategoryType) => {
@@ -156,9 +151,6 @@ const updateProductValidator = validate(
         notEmpty: {
           errorMessage: ErrorMessages.product.brandRequired
         },
-        isMongoId: {
-          errorMessage: ErrorMessages.product.brandInvalid
-        },
         custom: {
           options: async (brand: BrandType) => {
             const _brand = await databaseService.brands.findOne({ _id: new ObjectId(brand._id) })
@@ -174,9 +166,6 @@ const updateProductValidator = validate(
       },
       category: {
         optional: true,
-        isArray: {
-          errorMessage: ErrorMessages.product.categoryInvalid
-        },
         custom: {
           options: async (cat: CategoryType) => {
             const _cat = await databaseService.categories.findOne({ _id: new ObjectId(cat._id) })

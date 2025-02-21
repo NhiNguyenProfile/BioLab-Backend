@@ -48,20 +48,8 @@ class ProductService {
     return { message: 'Product deleted successfully' }
   }
 
-  async getAllProducts(page: number = 1, limit: number = 10) {
-    const skip = (page - 1) * limit
-    const products = await databaseService.products.find({}).skip(skip).limit(limit).toArray()
-
-    const total = await databaseService.products.countDocuments()
-    return {
-      data: products,
-      pagination: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit)
-      }
-    }
+  async getAllProducts() {
+    return await databaseService.products.find({}).toArray()
   }
 }
 

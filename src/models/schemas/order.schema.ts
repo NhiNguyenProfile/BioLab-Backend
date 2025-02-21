@@ -6,6 +6,8 @@ export default class Order {
   customer_id: ObjectId
   order_date: Date
   total_amount: number
+  // status:
+  // order_type:
 
   constructor(order: OrderType) {
     this._id = order._id || new ObjectId()
