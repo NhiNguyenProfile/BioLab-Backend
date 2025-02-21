@@ -38,6 +38,15 @@ const productRouter = Router()
  *                 type: number
  *               stock:
  *                 type: number
+ *               details:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     title:
+ *                       type: string
+ *                     content:
+ *                       type: string
  *     responses:
  *       200:
  *         description: Successfully created product
@@ -119,6 +128,15 @@ productRouter.get('/', wrapAsync(productController.getAllProducts))
  *                 type: number
  *               stock:
  *                 type: number
+ *               details:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     title:
+ *                       type: string
+ *                     content:
+ *                       type: string
  *     responses:
  *       200:
  *         description: Successfully updated product

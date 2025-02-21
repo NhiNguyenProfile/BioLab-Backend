@@ -26,6 +26,7 @@ export default class Product {
     this.unit = product.unit
     this.price = product.price
     this.stock = product.stock
+    this.details = product.details
     this.qa = product.qa
   }
 }
