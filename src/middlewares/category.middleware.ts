@@ -25,23 +25,6 @@ const createCategoryValidator = validate(
 const updateCategoryValidator = validate(
   checkSchema(
     {
-      categoryId: {
-        notEmpty: {
-          errorMessage: ErrorMessages.category.idRequired
-        },
-        custom: {
-          options: async (value) => {
-            const category = await databaseService.categories.findOne({ _id: value })
-            if (!category) {
-              throw new ErrorWithStatus({
-                status: HttpStatus.NOT_FOUND,
-                message: ErrorMessages.category.notFound
-              })
-            }
-            return true
-          }
-        }
-      },
       category_name: {
         optional: true,
         isString: {
@@ -57,7 +40,7 @@ const updateCategoryValidator = validate(
 const categoryExistsValidator = validate(
   checkSchema(
     {
-      categoryId: {
+      _id: {
         notEmpty: {
           errorMessage: ErrorMessages.category.idRequired
         },
