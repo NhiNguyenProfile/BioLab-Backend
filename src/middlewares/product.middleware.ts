@@ -21,6 +21,15 @@ const createProductValidator = validate(
         },
         trim: true
       },
+      note: {
+        notEmpty: {
+          errorMessage: ErrorMessages.product.noteRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.product.noteInvalid
+        },
+        trim: true
+      },
       description: {
         notEmpty: {
           errorMessage: ErrorMessages.product.descriptionRequired
@@ -137,6 +146,15 @@ const updateProductValidator = validate(
         optional: true,
         isString: {
           errorMessage: ErrorMessages.product.nameInvalid
+        },
+        trim: true
+      },
+      note: {
+        notEmpty: {
+          errorMessage: ErrorMessages.product.noteRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.product.noteInvalid
         },
         trim: true
       },

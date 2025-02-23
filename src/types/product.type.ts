@@ -13,6 +13,7 @@ interface ProductType {
   unit: string
   price: number
   stock: number
+  note: string
   status?: ProductStatus
   details?: Detail[]
 }

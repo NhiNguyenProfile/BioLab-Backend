@@ -51,6 +51,14 @@ class BrandService {
   async getAllBrands() {
     return await databaseService.brands.find({}).toArray()
   }
+
+  async getBrandFeatured(brandId: string) {
+    if (!ObjectId.isValid(brandId)) throw new Error('Invalid brand ID format')
+    const brand = await databaseService.brands.findOne({ _id: new ObjectId(brandId) })
+    if (!brand) throw new Error('Brand not found!')
+    const feature = await databaseService.products.findOne({ 'brand._id': brandId })
+    return feature
+  }
 }
 
 const brandService = new BrandService()

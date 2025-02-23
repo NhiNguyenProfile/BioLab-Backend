@@ -47,6 +47,16 @@ class BrandController {
     }
     res.status(HttpStatus.OK).json({ status: HttpStatus.OK, message: 'Brand deleted successfully' })
   }
+
+  async getBrandFeatured(req: Request, res: Response, next: NextFunction) {
+    const result = await brandService.getBrandFeatured(req.params.id)
+    if (!result) {
+      throw new ErrorWithStatus({ status: HttpStatus.NOT_FOUND, message: ErrorMessages.brand.notFound })
+    }
+    res
+      .status(HttpStatus.OK)
+      .json({ status: HttpStatus.OK, message: "Get brand's featured successfully", data: result })
+  }
 }
 
 const brandController = new BrandController()

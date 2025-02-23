@@ -97,23 +97,23 @@ brandRouter.put('/:id', updateBrandValidator, wrapAsync(brandController.updateBr
 
 /**
  * @swagger
- * /brands/{id}:
- *   delete:
- *     description: Delete brand by ID
+ * /brands/feature/{id}:
+ *   get:
+ *     description: Get brand's feature
  *     tags: [Brand]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: The ID of the brand to delete
+ *         description: The ID of the brand to get feature
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Successfully deleted brand
+ *         description: Successfully get brand's feature
  *       404:
  *         description: Brand not found
  */
-brandRouter.delete('/:id', wrapAsync(brandController.deleteBrand))
+brandRouter.get('/feature/:id', wrapAsync(brandController.getBrandFeatured))
 
 export default brandRouter

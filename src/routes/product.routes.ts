@@ -20,6 +20,8 @@ const productRouter = Router()
  *             properties:
  *               name:
  *                 type: string
+ *               note:
+ *                 type: string
  *               description:
  *                 type: string
  *               category:
@@ -119,6 +121,8 @@ productRouter.get('/', wrapAsync(productController.getAllProducts))
  *             type: object
  *             properties:
  *               name:
+ *                 type: string
+ *               note:
  *                 type: string
  *               description:
  *                 type: string

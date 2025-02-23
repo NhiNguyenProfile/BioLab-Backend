@@ -14,6 +14,7 @@ export default class Product {
   unit: string
   price: number
   stock: number
+  note: string
   status?: ProductStatus
   details?: Detail[]
 
@@ -26,6 +27,7 @@ export default class Product {
     this.brand = product.brand
     this.unit = product.unit
     this.price = product.price
+    this.note = product.note
     this.stock = product.stock
     this.details = product.details
     this.status = product.status || ProductStatus.ACTIVE

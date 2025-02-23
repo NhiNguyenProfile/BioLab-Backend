@@ -11,6 +11,7 @@ export interface CreateProductReqBody {
   qa: QAType[]
   unit: string
   price: number
+  note: string
   stock: number
   status?: ProductStatus
   details?: Detail[]
@@ -25,6 +26,7 @@ export interface UpdateProductReqBody {
   qa: QAType[]
   unit: string
   price: number
+  note: string
   stock: number
   status?: ProductStatus
   details?: Detail[]

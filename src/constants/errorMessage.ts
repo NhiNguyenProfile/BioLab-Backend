@@ -25,6 +25,8 @@ const ErrorMessages = {
   product: {
     nameRequired: 'Product name is required.',
     nameInvalid: 'Product name must be a valid string.',
+    noteRequired: 'Product note is required.',
+    noteInvalid: 'Product note must be a valid string.',
     descriptionRequired: 'Product description is required.',
     descriptionInvalid: 'Product description must be a valid string.',
     categoryRequired: 'Product category is required.',
