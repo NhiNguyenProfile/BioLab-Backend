@@ -54,10 +54,10 @@ class OrderDetailService {
     return { message: 'Order detail deleted successfully' }
   }
 
-  async getAllOrderDetailsByProductId(productId: string) {
-    if (!ObjectId.isValid(productId)) throw new Error('Invalid product ID format')
+  async getAllOrderDetailsByOrderId(orderId: string) {
+    if (!ObjectId.isValid(orderId)) throw new Error('Invalid order ID format')
 
-    const orderDetails = await databaseService.orderDetails.find({ product_id: new ObjectId(productId) }).toArray()
+    const orderDetails = await databaseService.orderDetails.find({ order_id: new ObjectId(orderId) }).toArray()
     return orderDetails
   }
 }

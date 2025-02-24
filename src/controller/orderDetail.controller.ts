@@ -27,9 +27,9 @@ class OrderDetailController {
     res.status(HttpStatus.OK).json({ status: HttpStatus.OK, data: orderDetail })
   }
 
-  async getAllOrderDetailsByProductId(req: Request, res: Response, next: NextFunction) {
-    const productId = req.params.productId
-    const orderDetails = await orderDetailService.getAllOrderDetailsByProductId(productId)
+  async getAllOrderDetailsByOrderId(req: Request, res: Response, next: NextFunction) {
+    const orderId = req.params.orderId
+    const orderDetails = await orderDetailService.getAllOrderDetailsByOrderId(orderId)
     res.status(HttpStatus.OK).json({ status: HttpStatus.OK, data: orderDetails })
   }
 

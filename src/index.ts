@@ -9,6 +9,8 @@ import brandRouter from './routes/brand.routes'
 import swaggerJSDoc from 'swagger-jsdoc'
 import cors from 'cors'
 import postCategoryRouter from './routes/postCategory.routes'
+import orderRouter from './routes/order.routes'
+import orderDetailRouter from './routes/orderDetail.routes'
 
 const swaggerUi = require('swagger-ui-express')
 
@@ -23,6 +25,8 @@ app.use('/categories', categoryRouter)
 app.use('/post-categories', postCategoryRouter)
 app.use('/posts', postRouter)
 app.use('/products', productRouter)
+app.use('/orders', orderRouter)
+app.use('/order-details', orderDetailRouter)
 
 // Configure the app to use Swagger
 const swaggerOptions = {
