@@ -6,7 +6,7 @@ export default class Order {
   customer_name: string
   email: string
   phone: string
-  order_date: Date
+  order_date?: Date
   total_amount: number
   status: OrderStatus
   payment_status: PaymentStatus
@@ -18,7 +18,7 @@ export default class Order {
     this.customer_name = order.customer_name
     this.email = order.email
     this.phone = order.phone
-    this.order_date = order.order_date
+    this.order_date = order.order_date || new Date()
     this.status = order.status
     this.payment_status = order.payment_status
     this.payment_method = order.payment_method

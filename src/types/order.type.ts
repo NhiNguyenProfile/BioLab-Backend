@@ -5,7 +5,7 @@ interface OrderType {
   customer_name: string
   email: string
   phone: string
-  order_date: Date
+  order_date?: Date
   total_amount: number
   status: OrderStatus
   payment_status: PaymentStatus
