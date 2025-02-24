@@ -2,33 +2,39 @@ import { checkSchema } from 'express-validator'
 import ErrorMessages from '~/constants/errorMessage'
 import { HttpStatus } from '~/constants/status'
 import { ErrorWithStatus } from '~/models/errors'
-import databaseService from '~/services/database.service'
+import { OrderStatus, PaymentStatus } from '~/types/order.type'
 import { validate } from '~/validators/manuallyValiadate'
 
 const createOrderValidator = validate(
   checkSchema(
     {
-      customer_id: {
+      customer_name: {
         notEmpty: {
-          errorMessage: ErrorMessages.order.customerIdRequired
+          errorMessage: ErrorMessages.order.customerNameRequired
         },
-        custom: {
-          options: async (value) => {
-            const customer = await databaseService.users.findOne({ _id: value })
-            if (!customer) {
-              throw new ErrorWithStatus({
-                status: HttpStatus.NOT_FOUND,
-                message: ErrorMessages.order.customerNotFound
-              })
-            }
-            return true
-          }
+        isString: {
+          errorMessage: ErrorMessages.order.customerNameInvalid
+        }
+      },
+      email: {
+        notEmpty: {
+          errorMessage: ErrorMessages.order.emailRequired
+        },
+        isEmail: {
+          errorMessage: ErrorMessages.order.emailInvalid
+        }
+      },
+      phone: {
+        notEmpty: {
+          errorMessage: ErrorMessages.order.phoneRequired
+        },
+        isMobilePhone: {
+          options: ['vi-VN'],
+          errorMessage: ErrorMessages.order.phoneInvalid
         }
       },
       order_date: {
-        notEmpty: {
-          errorMessage: ErrorMessages.order.orderDateRequired
-        },
+        optional: true,
         isISO8601: {
           errorMessage: ErrorMessages.order.orderDateInvalid
         }
@@ -41,6 +47,40 @@ const createOrderValidator = validate(
           options: { min: 0 },
           errorMessage: ErrorMessages.order.totalAmountInvalid
         }
+      },
+      status: {
+        notEmpty: {
+          errorMessage: ErrorMessages.order.statusRequired
+        },
+        isIn: {
+          options: [Object.values(OrderStatus)],
+          errorMessage: ErrorMessages.order.statusInvalid
+        }
+      },
+      payment_status: {
+        notEmpty: {
+          errorMessage: ErrorMessages.order.paymentStatusRequired
+        },
+        isIn: {
+          options: [Object.values(PaymentStatus)],
+          errorMessage: ErrorMessages.order.paymentStatusInvalid
+        }
+      },
+      payment_method: {
+        notEmpty: {
+          errorMessage: ErrorMessages.order.paymentMethodRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.order.paymentMethodInvalid
+        }
+      },
+      address: {
+        notEmpty: {
+          errorMessage: ErrorMessages.order.addressRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.order.addressInvalid
+        }
       }
     },
     ['body']
@@ -50,17 +90,22 @@ const createOrderValidator = validate(
 const updateOrderValidator = validate(
   checkSchema(
     {
-      order_date: {
-        optional: true,
-        isISO8601: {
-          errorMessage: ErrorMessages.order.orderDateInvalid
+      status: {
+        notEmpty: {
+          errorMessage: ErrorMessages.order.statusRequired
+        },
+        isIn: {
+          options: [Object.values(OrderStatus)],
+          errorMessage: ErrorMessages.order.statusInvalid
         }
       },
-      total_amount: {
-        optional: true,
-        isFloat: {
-          options: { min: 0 },
-          errorMessage: ErrorMessages.order.totalAmountInvalid
+      payment_status: {
+        notEmpty: {
+          errorMessage: ErrorMessages.order.paymentStatusRequired
+        },
+        isIn: {
+          options: [Object.values(PaymentStatus)],
+          errorMessage: ErrorMessages.order.paymentStatusInvalid
         }
       }
     },

@@ -14,15 +14,20 @@ interface OrderType {
 }
 
 enum OrderStatus {
-  'PROCESSING',
-  'DELIVERED',
-  'COMPLETED',
-  'CANCELLED'
+  PROCESSING = 'PROCESSING',
+  DELIVERED = 'DELIVERED',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
 }
 
 enum PaymentStatus {
-  'PAID',
-  'UNPAID'
+  PAID = 'PAID',
+  UNPAID = 'UNPAID'
+}
+
+enum PaymentMethod {
+  COD = 'COD',
+  VNPAY = 'VNPAY'
 }
 
 export { OrderType, OrderStatus, PaymentStatus }

@@ -7,13 +7,10 @@ class OrderService {
   constructor() {}
 
   async createOrder(payload: CreateOrderReqBody) {
-    if (!ObjectId.isValid(payload.customer_id)) throw new Error('Invalid customer ID format')
-
     const newOrder = new Order({
       _id: new ObjectId(),
-      customer_id: new ObjectId(payload.customer_id),
       order_date: new Date(),
-      total_amount: payload.total_amount
+      ...payload
     })
 
     const result = await databaseService.orders.insertOne(newOrder)
