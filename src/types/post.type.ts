@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb'
 import { PostCategoryType } from './postCategory.type'
-import PostContent from '~/models/schemas/postContent.schema'
 
 enum PostStatus {
   PUBLISHED,
@@ -8,13 +7,13 @@ enum PostStatus {
 }
 
 interface PostType {
-  post_id?: ObjectId
+  _id?: ObjectId
   title: string
+  banner: string
   category: PostCategoryType[]
   created_date: Date
-  user_id: ObjectId
   status: PostStatus
-  postContents: string
+  post_contents: string
 }
 
 export { PostType, PostStatus }

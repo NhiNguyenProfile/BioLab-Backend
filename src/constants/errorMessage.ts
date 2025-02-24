@@ -95,6 +95,18 @@ const ErrorMessages = {
     idRequired: 'Order detail ID is required.',
     notFound: 'Order detail not found.'
   },
+  post: {
+    titleRequired: 'Post title is required.',
+    titleInvalid: 'Post title must be a valid string.',
+    categoryRequired: 'Post category is required.',
+    categoryInvalid: 'Post category must be a valid array of category IDs.',
+    contentRequired: 'Post content is required.',
+    contentInvalid: 'Post content must be a valid string.',
+    statusInvalid: 'Post status is invalid.',
+    notFound: 'Post not found.',
+    bannerRequired: 'Post banner is required.',
+    bannerInvalid: 'Post banner must be a valid URL.'
+  },
   brand: {
     nameRequired: 'Brand name is required.',
     nameInvalid: 'Brand name must be a valid string.',

@@ -1,66 +1,98 @@
-import { Request, Response, NextFunction } from 'express'
-import Joi from 'joi'
+import { checkSchema } from 'express-validator'
+import ErrorMessages from '~/constants/errorMessage'
 import { PostStatus } from '~/types/post.type'
-import { ContentType } from '~/types/postContent.type'
+import { validate } from '~/validators/manuallyValiadate'
 
-const postContentSchema = Joi.object({
-  content: Joi.string().required(),
-  type: Joi.string()
-    .valid(...Object.values(ContentType))
-    .required()
-})
+const createPostValidator = validate(
+  checkSchema(
+    {
+      title: {
+        notEmpty: {
+          errorMessage: ErrorMessages.post.titleRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.post.titleInvalid
+        },
+        trim: true
+      },
+      category: {
+        isArray: {
+          errorMessage: ErrorMessages.post.categoryInvalid
+        },
+        notEmpty: {
+          errorMessage: ErrorMessages.post.categoryRequired
+        }
+      },
+      status: {
+        optional: true,
+        isIn: {
+          options: [Object.values(PostStatus)],
+          errorMessage: ErrorMessages.post.statusInvalid
+        }
+      },
+      post_contents: {
+        notEmpty: {
+          errorMessage: ErrorMessages.post.contentRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.post.contentInvalid
+        }
+      },
+      banner: {
+        notEmpty: {
+          errorMessage: ErrorMessages.post.bannerRequired
+        },
+        isURL: {
+          errorMessage: ErrorMessages.post.bannerInvalid
+        }
+      }
+    },
+    ['body']
+  )
+)
 
-const postCategorySchema = Joi.object({
-  _id: Joi.string().hex().length(24).required(),
-  post_category_name: Joi.string().required()
-})
+const updatePostValidator = validate(
+  checkSchema(
+    {
+      title: {
+        optional: true,
+        isString: {
+          errorMessage: ErrorMessages.post.titleInvalid
+        },
+        trim: true
+      },
+      category: {
+        optional: true,
+        isArray: {
+          errorMessage: ErrorMessages.post.categoryInvalid
+        }
+      },
+      status: {
+        optional: true,
+        isIn: {
+          options: [Object.values(PostStatus)],
+          errorMessage: ErrorMessages.post.statusInvalid
+        }
+      },
+      post_contents: {
+        notEmpty: {
+          errorMessage: ErrorMessages.post.contentRequired
+        },
+        isString: {
+          errorMessage: ErrorMessages.post.contentInvalid
+        }
+      },
+      banner: {
+        notEmpty: {
+          errorMessage: ErrorMessages.post.bannerRequired
+        },
+        isURL: {
+          errorMessage: ErrorMessages.post.bannerInvalid
+        }
+      }
+    },
+    ['body']
+  )
+)
 
-// Validation schema cho Post
-const postSchema = Joi.object({
-  title: Joi.string().required(),
-  category: Joi.array().items(postCategorySchema).min(1).required(),
-  user_id: Joi.string().hex().length(24).required(),
-  status: Joi.string()
-    .valid(...Object.values(PostStatus))
-    .default(PostStatus.DRAFT),
-  postContents: Joi.string().required()
-})
-
-const updatePostSchema = Joi.object({
-  title: Joi.string(),
-  category: Joi.array().items(postCategorySchema).min(1),
-  status: Joi.string().valid(...Object.values(PostStatus)),
-  postContents: Joi.string().required()
-}).min(1)
-
-export const validatePost = (req: Request, res: Response, next: NextFunction): void => {
-  const { error } = postSchema.validate(req.body, { abortEarly: false })
-
-  if (error) {
-    const errors = error.details.map((detail) => detail.message)
-    res.status(400).json({
-      status: 400,
-      message: 'Validation error',
-      errors
-    })
-    return
-  }
-
-  next()
-}
-
-export const validateUpdatePost = (req: Request, res: Response, next: NextFunction): void => {
-  const { error } = updatePostSchema.validate(req.body, { abortEarly: false })
-
-  if (error) {
-    const errors = error.details.map((detail) => detail.message)
-    res.status(400).json({
-      status: 400,
-      message: 'Validation error',
-      errors
-    })
-    return
-  }
-
-  next()
-}
+export { createPostValidator, updatePostValidator }
