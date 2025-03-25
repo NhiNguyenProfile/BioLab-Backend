@@ -1,9 +1,17 @@
 import { Router } from 'express'
 import orderController from '~/controller/order.controller'
-import { updateOrderValidator } from '~/middlewares/order.middleware'
+import { updateOrderValidator, validateUpdateOrderStatus } from '~/middlewares/order.middleware'
 import { wrapAsync } from '~/utils/handler'
 
 const orderRouter = Router()
+
+/**
+ * Description: Get all orders by phone
+ * Path: /orders/by-phone
+ * Method: GET
+ * Query: { phone: string }
+ */
+orderRouter.get('/by-phone', wrapAsync(orderController.getAllOrdersByPhone))
 
 /**
  * Description. Create a new order
@@ -12,6 +20,15 @@ const orderRouter = Router()
  * Body: { customer_id: string, order_items: Array<{ product_id: string, quantity: number }>, total_price: number }
  */
 orderRouter.post('/', wrapAsync(orderController.createOrder))
+
+/**
+ * Description. Update order status & payment status
+ * Path: /orders/:id/status
+ * Method: PATCH
+ * Params: { id: string }
+ * Body: { status?: OrderStatus, payment_status?: PaymentStatus }
+ */
+orderRouter.patch('/:id/status', validateUpdateOrderStatus, wrapAsync(orderController.updateOrderStatus))
 
 /**
  * Description. Get order by ID
@@ -28,14 +45,6 @@ orderRouter.get('/:id', wrapAsync(orderController.getOrderById))
  * Query: { page?: number, limit?: number }
  */
 orderRouter.get('/', wrapAsync(orderController.getAllOrders))
-
-/**
- * Description: Get all orders by phone
- * Path: /orders/by-phone
- * Method: GET
- * Query: { phone: string }
- */
-orderRouter.get('/by-phone', wrapAsync(orderController.getAllOrdersByPhone))
 
 /**
  * Description. Update order by ID

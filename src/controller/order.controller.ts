@@ -4,6 +4,7 @@ import { HttpMessage, HttpStatus } from '~/constants/status'
 import { ErrorWithStatus } from '~/models/errors'
 import { CreateOrderReqBody, UpdateOrderReqBody } from '~/models/requets/order.request'
 import orderService from '~/services/order.service'
+import { OrderStatus, PaymentStatus } from '~/types/order.type'
 
 class OrderController {
   async createOrder(req: Request<Record<string, string>, any, CreateOrderReqBody>, res: Response, next: NextFunction) {
@@ -40,6 +41,34 @@ class OrderController {
       message: 'Order updated successfully',
       data: updatedOrder
     })
+  }
+
+  async updateOrderStatus(
+    req: Request<Record<string, string>, any, { status?: OrderStatus; payment_status?: PaymentStatus }>,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { status, payment_status } = req.body
+      const { id } = req.params
+
+      const updatedOrder = await orderService.updateOrderStatus(id, status, payment_status)
+
+      if (!updatedOrder) {
+        throw new ErrorWithStatus({
+          status: HttpStatus.NOT_FOUND,
+          message: ErrorMessages.order.notFound
+        })
+      }
+
+      res.status(HttpStatus.OK).json({
+        status: HttpStatus.OK,
+        message: 'Order status updated successfully',
+        data: updatedOrder
+      })
+    } catch (error) {
+      next(error)
+    }
   }
 
   async deleteOrder(req: Request, res: Response, next: NextFunction) {

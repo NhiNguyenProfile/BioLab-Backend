@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb'
 import Order from '~/models/schemas/order.schema'
 import databaseService from './database.service'
 import { CreateOrderReqBody, UpdateOrderReqBody } from '~/models/requets/order.request'
+import { OrderStatus, PaymentStatus } from '~/types/order.type'
 
 class OrderService {
   constructor() {}
@@ -40,6 +41,37 @@ class OrderService {
     return result
   }
 
+  async updateOrderStatus(orderId: string, status?: OrderStatus, payment_status?: PaymentStatus) {
+    if (!ObjectId.isValid(orderId)) {
+      throw new Error('Invalid order ID format')
+    }
+
+    const updateData: Partial<{ status: OrderStatus; payment_status: PaymentStatus }> = {}
+
+    if (status) {
+      updateData.status = status
+    }
+
+    if (payment_status) {
+      updateData.payment_status = payment_status
+    }
+    if (Object.keys(updateData).length === 0) {
+      throw new Error('No update data provided')
+    }
+
+    const result = await databaseService.orders.findOneAndUpdate(
+      { _id: new ObjectId(orderId) },
+      { $set: updateData },
+      { returnDocument: 'after' }
+    )
+
+    if (!result) {
+      throw new Error('Order not found or update failed!')
+    }
+
+    return result
+  }
+
   async deleteOrder(orderId: string) {
     if (!ObjectId.isValid(orderId)) throw new Error('Invalid order ID format')
 
@@ -65,7 +97,7 @@ class OrderService {
   }
 
   async getAllOrdersByPhone(phone: string) {
-    const orders = await databaseService.orders.find({ phone }).toArray()
+    const orders = await databaseService.orders.find({ phone: phone }).toArray()
     return {
       data: orders
     }

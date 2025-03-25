@@ -113,4 +113,32 @@ const updateOrderValidator = validate(
   )
 )
 
-export { createOrderValidator, updateOrderValidator }
+const validateUpdateOrderStatus = validate(
+  checkSchema(
+    {
+      status: {
+        optional: true,
+        notEmpty: {
+          errorMessage: ErrorMessages.order.statusRequired
+        },
+        isIn: {
+          options: [Object.values(OrderStatus)],
+          errorMessage: ErrorMessages.order.statusInvalid
+        }
+      },
+      payment_status: {
+        optional: true,
+        notEmpty: {
+          errorMessage: ErrorMessages.order.paymentStatusRequired
+        },
+        isIn: {
+          options: [Object.values(PaymentStatus)],
+          errorMessage: ErrorMessages.order.paymentStatusInvalid
+        }
+      }
+    },
+    ['body']
+  )
+)
+
+export { createOrderValidator, updateOrderValidator, validateUpdateOrderStatus }
