@@ -30,6 +30,14 @@ orderRouter.get('/:id', wrapAsync(orderController.getOrderById))
 orderRouter.get('/', wrapAsync(orderController.getAllOrders))
 
 /**
+ * Description: Get all orders by phone
+ * Path: /orders/by-phone
+ * Method: GET
+ * Query: { phone: string }
+ */
+orderRouter.get('/by-phone', wrapAsync(orderController.getAllOrdersByPhone))
+
+/**
  * Description. Update order by ID
  * Path: /orders/:id
  * Method: PUT

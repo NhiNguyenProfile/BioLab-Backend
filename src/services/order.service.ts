@@ -63,6 +63,13 @@ class OrderService {
       }
     }
   }
+
+  async getAllOrdersByPhone(phone: string) {
+    const orders = await databaseService.orders.find({ phone }).toArray()
+    return {
+      data: orders
+    }
+  }
 }
 
 const orderService = new OrderService()

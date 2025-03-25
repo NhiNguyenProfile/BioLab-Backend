@@ -49,6 +49,24 @@ class OrderController {
     }
     res.status(HttpStatus.OK).json({ status: HttpStatus.OK, message: 'Order deleted successfully' })
   }
+
+  async getAllOrdersByPhone(req: Request, res: Response, next: NextFunction) {
+    try {
+      const phone = req.query.phone as string
+
+      if (!phone) {
+        res.status(HttpStatus.BAD_REQUEST).json({
+          status: HttpStatus.BAD_REQUEST,
+          message: 'Phone number is required'
+        })
+      } else {
+        const result = await orderService.getAllOrdersByPhone(phone)
+        res.status(HttpStatus.OK).json({ status: HttpStatus.OK, data: result })
+      }
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 const orderController = new OrderController()
