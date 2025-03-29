@@ -12,6 +12,7 @@ import postCategoryRouter from './routes/postCategory.routes'
 import orderRouter from './routes/order.routes'
 import orderDetailRouter from './routes/orderDetail.routes'
 import paymentRouter from './routes/payment.routes'
+import sopRouter from './routes/sop.routes'
 
 const swaggerUi = require('swagger-ui-express')
 
@@ -29,6 +30,7 @@ app.use('/products', productRouter)
 app.use('/orders', orderRouter)
 app.use('/order-details', orderDetailRouter)
 app.use('/payments', paymentRouter)
+app.use('/sops', sopRouter)
 
 // Configure the app to use Swagger
 const swaggerOptions = {

@@ -11,6 +11,7 @@ import ProductRate from '~/models/schemas/productRate.schema'
 import Brand from '~/models/schemas/brand.schema'
 import PostCategory from '~/models/schemas/postCategory.schema'
 import Post from '~/models/schemas/post.schema'
+import SOP from '~/models/schemas/sop.schema'
 
 // Using env
 config()
@@ -82,6 +83,10 @@ class DatabaseService {
 
   get postCategories(): Collection<PostCategory> {
     return databaseService.db.collection(process.env.DB_POST_CATEGORY_COLLECTION as string)
+  }
+
+  get sops(): Collection<SOP> {
+    return databaseService.db.collection(process.env.DB_SOP_COLLECTION as string)
   }
 }
 

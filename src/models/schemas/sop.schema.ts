@@ -6,12 +6,14 @@ export default class SOP {
   _id: ObjectId
   name: string
   description: string
+  image_url: string
   combo: ProductType[]
 
   constructor(sop: SOPType) {
-    this._id = sop._id
+    this._id = sop._id || new ObjectId()
     this.name = sop.name
     this.description = sop.description
-    this.combo = sop.combo
+    this.image_url = sop.image_url
+    this.combo = sop.combo || []
   }
 }
