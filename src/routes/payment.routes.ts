@@ -6,7 +6,7 @@ const router = Router()
 
 /**
  * @swagger
- * /api/payment/create-payment:
+ * /payment/create-payment:
  *   post:
  *     summary: Create a new payment link
  *     tags: [Payment]
@@ -23,7 +23,7 @@ const router = Router()
  *               - cancelUrl
  *             properties:
  *               orderCode:
- *                 type: string
+ *                 type: number
  *                 description: Unique code for the order
  *               amount:
  *                 type: number
@@ -96,7 +96,7 @@ router.post('/create-payment', wrapAsync(createPayment))
 
 /**
  * @swagger
- * /api/payment/payos-webhook:
+ * /payment/payos-webhook:
  *   post:
  *     summary: Handle payment webhook from PayOS
  *     description: Endpoint to receive and process payment status updates from PayOS payment gateway
@@ -116,7 +116,7 @@ router.post('/create-payment', wrapAsync(createPayment))
  *                 type: string
  *                 description: Transaction ID
  *               orderCode:
- *                 type: string
+ *                 type: number
  *                 description: Order code
  *               amount:
  *                 type: number

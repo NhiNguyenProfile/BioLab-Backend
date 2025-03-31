@@ -31,6 +31,23 @@ class OrderController {
     res.status(HttpStatus.OK).json({ status: HttpStatus.OK, data: result })
   }
 
+  async getAllListOrders(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await orderService.getAllListOrders()
+      res.status(HttpStatus.OK).json({
+        status: HttpStatus.OK,
+        data: result
+      })
+    } catch (error) {
+      next(
+        new ErrorWithStatus({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: "Something went wrong!"
+        })
+      )
+    }
+  }
+
   async updateOrder(req: Request<Record<string, string>, any, UpdateOrderReqBody>, res: Response, next: NextFunction) {
     const updatedOrder = await orderService.updateOrder(req.params.id, req.body)
     if (!updatedOrder) {

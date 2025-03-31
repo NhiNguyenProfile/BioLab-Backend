@@ -22,6 +22,32 @@ orderRouter.get('/by-phone', wrapAsync(orderController.getAllOrdersByPhone))
 orderRouter.post('/', wrapAsync(orderController.createOrder))
 
 /**
+ * @swagger
+ * /orders/all:
+ *   get:
+ *     summary: Lấy tất cả đơn hàng không phân trang
+ *     tags: [Orders]
+ *     responses:
+ *       200:
+ *         description: Lấy danh sách đơn hàng thành công
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: number
+ *                   example: 200
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Order'
+ *       500:
+ *         description: Lỗi server
+ */
+orderRouter.get('/all', wrapAsync(orderController.getAllListOrders))
+
+/**
  * Description. Update order status & payment status
  * Path: /orders/:id/status
  * Method: PATCH

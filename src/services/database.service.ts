@@ -12,6 +12,8 @@ import Brand from '~/models/schemas/brand.schema'
 import PostCategory from '~/models/schemas/postCategory.schema'
 import Post from '~/models/schemas/post.schema'
 import SOP from '~/models/schemas/sop.schema'
+import OrderSOPDetail from '~/models/schemas/orderSOPDetail.schema'
+import PendingOrder from '~/models/schemas/pendingOrder.schema'
 
 // Using env
 config()
@@ -87,6 +89,14 @@ class DatabaseService {
 
   get sops(): Collection<SOP> {
     return databaseService.db.collection(process.env.DB_SOP_COLLECTION as string)
+  }
+
+  get orderSOPDetails(): Collection<OrderSOPDetail> {
+    return this.db.collection(process.env.DB_ORDER_SOP_DETAIL_COLLECTION as string)
+  }
+
+  get pendingOrders(): Collection<PendingOrder> {
+    return this.db.collection(process.env.DB_PENDING_ORDER_COLLECTION as string)
   }
 }
 

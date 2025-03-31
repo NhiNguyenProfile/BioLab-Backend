@@ -7,7 +7,7 @@ const sopRouter = Router()
 
 /**
  * @swagger
- * /api/sops:
+ * /sops:
  *   post:
  *     summary: Create a new SOP
  *     tags: [SOPs]
@@ -43,7 +43,7 @@ sopRouter.post('/', sopMiddleware.validateCreateSOP, wrapAsync(sopController.cre
 
 /**
  * @swagger
- * /api/sops:
+ * /sops:
  *   get:
  *     summary: Get all SOPs
  *     tags: [SOPs]
@@ -55,7 +55,7 @@ sopRouter.get('/', wrapAsync(sopController.getAllSOPs))
 
 /**
  * @swagger
- * /api/sops/{id}:
+ * /sops/{id}:
  *   get:
  *     summary: Get SOP by ID
  *     tags: [SOPs]
@@ -76,7 +76,7 @@ sopRouter.get('/:id', sopMiddleware.validateSOPId, wrapAsync(sopController.getSO
 
 /**
  * @swagger
- * /api/sops/{id}:
+ * /sops/{id}:
  *   put:
  *     summary: Update SOP
  *     tags: [SOPs]
@@ -109,7 +109,7 @@ sopRouter.put('/:id', sopMiddleware.validateSOPId, wrapAsync(sopController.updat
 
 /**
  * @swagger
- * /api/sops/{id}:
+ * /sops/{id}:
  *   delete:
  *     summary: Delete SOP
  *     tags: [SOPs]
@@ -130,7 +130,7 @@ sopRouter.delete('/:id', sopMiddleware.validateSOPId, wrapAsync(sopController.de
 
 /**
  * @swagger
- * /api/sops/{id}/add-product:
+ * /sops/{id}/add-product:
  *   post:
  *     summary: Add product to SOP combo
  *     tags: [SOPs]
@@ -167,7 +167,7 @@ sopRouter.post(
 
 /**
  * @swagger
- * /api/sops/{id}/remove-product:
+ * /sops/{id}/remove-product:
  *   post:
  *     summary: Remove product from SOP combo
  *     tags: [SOPs]

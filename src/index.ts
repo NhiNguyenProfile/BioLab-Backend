@@ -13,6 +13,9 @@ import orderRouter from './routes/order.routes'
 import orderDetailRouter from './routes/orderDetail.routes'
 import paymentRouter from './routes/payment.routes'
 import sopRouter from './routes/sop.routes'
+import sopOrderRouter from './routes/sopOrder.routes'
+import cron from 'node-cron'
+import pendingOrderService from './services/pendingOrder.service'
 
 const swaggerUi = require('swagger-ui-express')
 
@@ -31,6 +34,7 @@ app.use('/orders', orderRouter)
 app.use('/order-details', orderDetailRouter)
 app.use('/payments', paymentRouter)
 app.use('/sops', sopRouter)
+app.use('/sop-orders', sopOrderRouter)
 
 // Configure the app to use Swagger
 const swaggerOptions = {
@@ -46,6 +50,15 @@ const swaggerOptions = {
 }
 const swaggerDocs = swaggerJSDoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+
+cron.schedule('0 * * * *', async () => {
+  try {
+    const cleanedCount = await pendingOrderService.cleanupExpiredOrders()
+    console.log(`${new Date().toISOString()}: Cleaned up ${cleanedCount} expired pending orders`)
+  } catch (error) {
+    console.error('Error cleaning up expired orders:', error)
+  }
+})
 
 app.use(defaultErrorHandler)
 databaseService.connect()
