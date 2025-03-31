@@ -40,7 +40,9 @@ const ErrorMessages = {
     qaRequired: 'Product QA section is required.',
     qaInvalid: 'Product QA must be an array with valid question-answer pairs.',
     idRequired: 'Product ID is required.',
-    notFound: 'Product not found.'
+    notFound: 'Product not found.',
+    missingId: 'Product ID is required',
+    invalidId: 'Product ID is not valid'
   },
   category: {
     nameRequired: 'Category name is required.',
@@ -125,6 +127,14 @@ const ErrorMessages = {
     notFound: 'Brand not found.',
     imageRequired: 'Brand image is required.',
     imageInvalid: 'Brand image must be a valid URL.'
+  },
+  sop: {
+    notFound: 'SOP not found',
+    invalidId: 'Invalid SOP ID format',
+    invalidComboFormat: 'Combo must be an array of product IDs',
+    missingFields: 'Name, description and image_url are required',
+    productExistsInCombo: 'Product already exists in the combo',
+    productNotInCombo: 'Product not found in the combo'
   }
 }
 
