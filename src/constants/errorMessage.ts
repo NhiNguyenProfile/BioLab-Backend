@@ -135,6 +135,19 @@ const ErrorMessages = {
     missingFields: 'Name, description and image_url are required',
     productExistsInCombo: 'Product already exists in the combo',
     productNotInCombo: 'Product not found in the combo'
+  },
+  sopOrder: {
+    missingRequiredFields: 'Missing required fields for SOP order',
+    invalidSopId: 'Invalid SOP ID format',
+    invalidOrderId: 'Invalid order ID format',
+    orderDetailNotFound: 'Order SOP detail not found',
+    invalidStartDate: 'Invalid start date format',
+    noStatusProvided: 'At least one status field must be provided',
+    subscriptionInfoRequired: 'Missing subscription info for subscription order',
+    failedToCreateOrder: 'Failed to create SOP order',
+    failedToUpdateStatus: 'Failed to update order status',
+    failedToGetSubscriptions: 'Failed to get subscription orders',
+    failedToGetPendingDeliveries: 'Failed to get pending deliveries'
   }
 }
 
